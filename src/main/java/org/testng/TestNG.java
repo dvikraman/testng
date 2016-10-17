@@ -961,10 +961,15 @@ public class TestNG {
     //
     // Install the listeners found in the suites
     //
+    List<String> addedListeners = Lists.newArrayList();
     for (XmlSuite s : m_suites) {
       for (String listenerName : s.getListeners()) {
+        // To check if the listener has been already added
+        if(addedListeners.contains(listenerName)){
+          continue;
+        }
         Class<?> listenerClass = ClassHelper.forName(listenerName);
-
+        addedListeners.add(listenerName);
         // If specified listener does not exist, a TestNGException will be thrown
         if(listenerClass == null) {
           throw new TestNGException("Listener " + listenerName
